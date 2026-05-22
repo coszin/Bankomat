@@ -24,7 +24,7 @@
 
                 $conn->exec("CREATE TABLE IF NOT EXISTS Accounts (
                     id INT AUTO_INCREMENT PRIMARY KEY,
-                    customer_id INT NOT NULL,
+                    user_id INT NOT NULL,
                     account_type INT NOT NULL,
                     balance DECIMAL(15, 2) NOT NULL,
                     currency VARCHAR(3) NOT NULL,
@@ -48,33 +48,6 @@
                     related_account_id INT NOT NULL
                 )");
 
-                $conn->exec("CREATE TABLE IF NOT EXISTS Cards (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
-                    account_id INT NOT NULL,
-                    card_number VARCHAR(16) NOT NULL,
-                    expiration_date DATE NOT NULL,
-                    card_type enum('debit', 'credit') NOT NULL,
-                    status enum('active', 'inactive', 'blocked') NOT NULL
-                )");
-
-                $conn->exec("CREATE TABLE IF NOT EXISTS Loans (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
-                    customer_id INT NOT NULL,
-                    amount DECIMAL(15, 2) NOT NULL,
-                    interest_rate DECIMAL(5, 2) NOT NULL,
-                    loan_type enum('personal', 'mortgage', 'auto') NOT NULL,
-                    start_date DATE NOT NULL,
-                    end_date DATE NOT NULL,
-                    remaining_balance DECIMAL(15, 2) NOT NULL
-                )");                
-
-                $conn->exec("CREATE TABLE IF NOT EXISTS Loan_Payments (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
-                    loan_id INT NOT NULL,
-                    amount DECIMAL(15, 2) NOT NULL,
-                    payment_date DATE NOT NULL
-                    )");      
-
                 $conn->exec("CREATE TABLE IF NOT EXISTS Users (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     username VARCHAR(64) NOT NULL,
@@ -82,25 +55,52 @@
                     userrole enum('customer', 'employee', 'admin') NOT NULL
                 )");      
 
-                $conn->exec("CREATE TABLE IF NOT EXISTS Audit_Log (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
-                    user_id INT NOT NULL,
-                    action VARCHAR(255) NOT NULL,
-                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    affected_table VARCHAR(64) NOT NULL,
-                    affected_record_id INT NOT NULL
-                )");      
+                // $conn->exec("CREATE TABLE IF NOT EXISTS Cards (
+                //     id INT AUTO_INCREMENT PRIMARY KEY,
+                //     account_id INT NOT NULL,
+                //     card_number VARCHAR(16) NOT NULL,
+                //     expiration_date DATE NOT NULL,
+                //     card_type enum('debit', 'credit') NOT NULL,
+                //     status enum('active', 'inactive', 'blocked') NOT NULL
+                // )");
+
+                // $conn->exec("CREATE TABLE IF NOT EXISTS Loans (
+                //     id INT AUTO_INCREMENT PRIMARY KEY,
+                //     customer_id INT NOT NULL,
+                //     amount DECIMAL(15, 2) NOT NULL,
+                //     interest_rate DECIMAL(5, 2) NOT NULL,
+                //     loan_type enum('personal', 'mortgage', 'auto') NOT NULL,
+                //     start_date DATE NOT NULL,
+                //     end_date DATE NOT NULL,
+                //     remaining_balance DECIMAL(15, 2) NOT NULL
+                // )");                
+
+                // $conn->exec("CREATE TABLE IF NOT EXISTS Loan_Payments (
+                //     id INT AUTO_INCREMENT PRIMARY KEY,
+                //     loan_id INT NOT NULL,
+                //     amount DECIMAL(15, 2) NOT NULL,
+                //     payment_date DATE NOT NULL
+                //     )");      
+
+                // $conn->exec("CREATE TABLE IF NOT EXISTS Audit_Log (
+                //     id INT AUTO_INCREMENT PRIMARY KEY,
+                //     user_id INT NOT NULL,
+                //     action VARCHAR(255) NOT NULL,
+                //     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                //     affected_table VARCHAR(64) NOT NULL,
+                //     affected_record_id INT NOT NULL
+                // )");      
                 
-                $conn->exec("CREATE TABLE IF NOT EXISTS Authentication_Log (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
-                    user_id INT NOT NULL,
-                    username_attempt VARCHAR(64) NOT NULL,
-                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    ip_address VARCHAR(45) NOT NULL,
-                    user_agent VARCHAR(255) NOT NULL,
-                    success BOOLEAN NOT NULL,
-                    failure_reason ENUM('invalid_username', 'invalid_password', 'account_locked', 'other') NULL
-                )");    
+                // $conn->exec("CREATE TABLE IF NOT EXISTS Authentication_Log (
+                //     id INT AUTO_INCREMENT PRIMARY KEY,
+                //     user_id INT NOT NULL,
+                //     username_attempt VARCHAR(64) NOT NULL,
+                //     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                //     ip_address VARCHAR(45) NOT NULL,
+                //     user_agent VARCHAR(255) NOT NULL,
+                //     success BOOLEAN NOT NULL,
+                //     failure_reason ENUM('invalid_username', 'invalid_password', 'account_locked', 'other') NULL
+                // )");    
 
                 require_once __DIR__ . '/../Infrastructure/seeder.php';
             }

@@ -1,9 +1,7 @@
 <?php 
-    session_start();
-    if(isset($_SESSION['user_id'])) {
-        echo "<br>" . htmlspecialchars($_SESSION['user_id']);
-        echo "<br>" . htmlspecialchars($_SESSION['user_role']);
-    }
+    require_once __DIR__ . '\..\Shared\helpers.php';
+    csrf_verify();
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,7 +11,7 @@
 <body>
     <header>
         <h1>Bank Söder</h1>
-        <a href="login.php">Login</a>
+        <a href='/Bankomat/Features/Authentication/Login.php'>Login</a>
     </header>
     <main>
         <h2>Produkter</h2>
