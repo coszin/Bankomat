@@ -1,27 +1,26 @@
 <?php 
-    require_once __DIR__ . '\..\..\helpers.php';
+    require_once __DIR__ . '/../../shared/helpers.php';
     csrf_verify();
     
     $messageToUser = "";
     if(isset($_POST['type'])) { 
         if($_POST['type'] === 'Register') {
             
-            require "/Bankomat/Shared/Infrastructure/database.php";
+            require "/../../Shared/Infrastructure/database.php";
             $dbFactory = new DatabaseFactory();
             $conn = $dbFactory->createDatabaseConnection();
             
-            $stmt = $conn->prepare("SELECT id, kortnummer, PIN-kod, userrole FROM users WHERE kortnummer = ?");
+            $stmt = $conn->prepare("SELECT id, kortnummer, PIN-kod FROM Accounts WHERE kortnummer = ?");
             $stmt->execute([$_POST['kortnummer']]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if($user) {
-                $messageToUser = "Kortnummer already exists.";
+                $messageToUser = "Kortnummer finss redan.";
             } else {
-                $stmt = $conn->prepare("INSERT INTO users (kortnummer, PIN-kod, userrole) VALUES (?, ?, ?)");
+                $stmt = $conn->prepare("INSERT INTO Accounts (kortnummer, PIN-kod) VALUES (?, ?)");
                 $stmt->execute([
                     password_hash($_POST['kortnummer'], PASSWORD_DEFAULT),
-                    password_hash($_POST['PIN-kod'], PASSWORD_DEFAULT),
-                    'customer'
+                    password_hash($_POST['PIN-kod'], PASSWORD_DEFAULT)
                 ]);
                 
                 header("Location: Login.php");
@@ -50,8 +49,27 @@
         <label for="dateofbirth">Date of Birth: *</label>
         <input type="date" id="dateofbirth" name="dateofbirth" required>
 
-        <label for="national_id">National ID: *</label>
-        <input type="text" id="national_id" name="national_id" required>
+        <label for="phone">Phone Number: *</label>
+        <input type="text" id="phone" name="phone" required>
+
+        <label for="kortnummer">Kortnummer: *</label>
+        <input type="text" id="kortnummer" name="kortnummer" required>
+
+        <label for="PIN-kod">PIN-kod: *</label>
+        <input type="password" id="PIN-kod" name="PIN-kod" required>
+
+        <label for="account_type">Account Type: *</label>
+        <select id="account_type" name="account_type" required>
+            <option value="savings">Savings Account</option>
+            <option value="checking">Checking Account</option>
+        </select>
+
+        <label for="currency">Currency: *</label>
+        <select id="currency" name="currency" required>
+            <option value="SEK">Swedish Krona</option>
+            <option value="USD">US Dollar</option>
+            <option value="EUR">Euro</option>
+        </select>
 
         <button type="submit" value="Register">Register</button>
     </form>

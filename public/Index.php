@@ -1,6 +1,6 @@
 <?php 
     require_once __DIR__ . '\..\Shared\helpers.php';
-    csrf_verify();
+    csrf_token();
 
 ?>
 <!DOCTYPE html>
@@ -11,7 +11,7 @@
 <body>
     <header>
         <h1>Bank Söder</h1>
-        <a href='/Bankomat/Features/Authentication/Login.php'>Login</a>
+        <a href='/../Bankomat/Features/Authentication/Login.php'>Login</a>
     </header>
     <main>
         <h2>Produkter</h2>

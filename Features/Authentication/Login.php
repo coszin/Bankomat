@@ -1,11 +1,13 @@
 <?php 
-    require_once __DIR__ . '\..\..\helpers.php';
+    require_once __DIR__ . '/../../Shared/helpers.php';
+    require_once __DIR__ . '/../../Shared/Infrastructure/database.php';
+    csrf_verify();
     
     $messageToUser = "";
     if(isset($_POST['type'])) { 
         if($_POST['type'] === 'login') {
             
-            require "/Bankomat/Shared/Infrastructure/database.php";
+            require __DIR__ . "/../../Shared/Infrastructure/database.php";
             $dbFactory = new DatabaseFactory();
             $conn = $dbFactory->createDatabaseConnection();
             
@@ -23,13 +25,10 @@
             else {
                 $messageToUser = "Kortnummer eller PIN-kod är felaktigt.";
             } 
-            } else if($_POST['type'] === 'Cant login') {
-                header('Location: CantLogin.php');
-                exit();
-            } else if($_POST['type'] === 'Register new account') {
-                header('Location: /Bankomat/Features/Registration/Register.php');
-                exit();
-            }
+        } else if($_POST['type'] === 'Register new account') {
+            header('Location: /../Bankomat/Features/Registration/Register.php');
+            exit();
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -51,7 +50,6 @@
             <input type="password" id="PIN-kod" name="PIN-kod">
             
             <button type="submit" name="type" value="login">Login</button>
-            <button type="submit" name="type" value="Cant login">Cant login</button>
             <button type="submit" name="type" value="Register new account">Register new account</button>
         </form>
     </body>

@@ -1,27 +1,33 @@
-    <?php
-        if($_SERVER['REQUEST_METHOD'] === 'POST') {
-            require "/Bankomat/Shared/Infrastructure/database.php";
-            $dbFactory = new DatabaseFactory();
-            $conn = $dbFactory->createDatabaseConnection();
+<?php
+        class RegisterUserValidation {
+        function validate(array $post) : array {
+            $errors = [];
 
-            $stmt = $conn->prepare("INSERT INTO Customers (firstname, lastname, email, dateofbirth, national_id) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([
-                explode(" ", $_POST['name'])[0],
-                explode(" ", $_POST['name'])[1],
-                $_POST['email'],
-                $_POST['dateofbirth'],
-                $_POST['national_id']
-            ]);
+            if(!filter_var($post['email'], FILTER_VALIDATE_EMAIL)) {
+                $errors[] = "E-postadressen är inte giltig.";
+            }
 
-            echo "Account created successfully!";
+            if(strlen($post['email']) > 128) {
+                $errors[] = "E-post kan inte vara längre än 128 tecken.";
+            }
+            
+            if(strlen($post['firstname']) > 64) {
+                $errors[] = "Förnamn kan inte vara längre än 64 tecken.";
+            }
+
+            if(strlen($post['lastname']) > 64) {
+                $errors[] = "Efternamn kan inte vara längre än 64 tecken.";
+            }
+
+            if(!preg_match('/^[0-9]{10}$/', $post['phone'])) {
+                $errors[] = "Telefonnumret måste vara exakt 10 siffror.";
+            }
+
+            if(strtotime($post['dateofbirth']) <= strtotime("-18 years")) {
+                $errors[] = "Du måste vara minst 18 år gammal.";
+            }
+
+            return $errors;
         }
-
-        $stmt = $conn->query("INSERT INTO Accounts (customer_id, account_type, balance, currency, status) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([
-            $conn->lastInsertId(),
-            1,
-            0.00,
-            'SEK',
-            'active'
-        ]);
-    ?>
+    } 
+?>  

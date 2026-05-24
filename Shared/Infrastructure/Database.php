@@ -18,17 +18,18 @@
                     phone VARCHAR(64) NOT NULL,
                     email VARCHAR(128) NOT NULL,
                     dateofbirth DATE NOT NULL,
-                    national_id VARCHAR(64) NOT NULL,
                     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )");
 
                 $conn->exec("CREATE TABLE IF NOT EXISTS Accounts (
                     id INT AUTO_INCREMENT PRIMARY KEY,
+                    kortnummer VARCHAR(255) NOT NULL,
+                    pinkod VARCHAR(255) NOT NULL,
                     user_id INT NOT NULL,
                     account_type INT NOT NULL,
-                    balance DECIMAL(15, 2) NOT NULL,
+                    balance DECIMAL(15, 2) DEFAULT 0.00,
                     currency VARCHAR(3) NOT NULL,
-                    status enum('active', 'inactive', 'closed') NOT NULL,
+                    status enum('active', 'inactive', 'closed') DEFAULT 'active',
                     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )");
 
@@ -48,12 +49,12 @@
                     related_account_id INT NOT NULL
                 )");
 
-                $conn->exec("CREATE TABLE IF NOT EXISTS Users (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
-                    username VARCHAR(64) NOT NULL,
-                    password VARCHAR(255) NOT NULL,
-                    userrole enum('customer', 'employee', 'admin') NOT NULL
-                )");      
+                // $conn->exec("CREATE TABLE IF NOT EXISTS Users (
+                //     id INT AUTO_INCREMENT PRIMARY KEY,
+                //     username VARCHAR(64) NOT NULL,
+                //     password VARCHAR(255) NOT NULL,
+                //     userrole enum('customer', 'employee', 'admin') NOT NULL
+                // )");      
 
                 // $conn->exec("CREATE TABLE IF NOT EXISTS Cards (
                 //     id INT AUTO_INCREMENT PRIMARY KEY,
