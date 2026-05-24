@@ -1,6 +1,8 @@
 <?php 
     require_once __DIR__ . '/../../shared/helpers.php';
-    csrf_verify();
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        csrf_verify();
+    }
     
     $messageToUser = "";
     if(isset($_POST['type'])) { 
@@ -17,10 +19,22 @@
             if($user) {
                 $messageToUser = "Kortnummer finss redan.";
             } else {
-                $stmt = $conn->prepare("INSERT INTO Accounts (kortnummer, PIN-kod) VALUES (?, ?)");
+                $stmt = $conn->prepare("INSERT INTO Users (firstname, lastname, phone, email, dateofbirth) VALUES (?, ?, ?, ?, ?)");
+                $stmt->execute([
+                    $_POST['firstname'],
+                    $_POST['lastname'],
+                    $_POST['phone'],
+                    $_POST['email'],
+                    $_POST['dateofbirth']
+                ]);
+
+                $stmt = $conn->prepare("INSERT INTO Accounts (kortnummer, PIN-kod, user_id, account_type, currency) VALUES (?, ?, ?, ?, ?)");
                 $stmt->execute([
                     password_hash($_POST['kortnummer'], PASSWORD_DEFAULT),
-                    password_hash($_POST['PIN-kod'], PASSWORD_DEFAULT)
+                    password_hash($_POST['PIN-kod'], PASSWORD_DEFAULT),
+                    $_SESSION['user_id'],
+                    $_POST['account_type'],
+                    $_POST['currency']
                 ]);
                 
                 header("Location: Login.php");
@@ -34,45 +48,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Registrera</title>
+    <link rel="stylesheet" href="Register.css">
 </head>
 <body>
-    <h1>Register a new account</h1>
-    <form method="post">
-        <?php csrf_field(); ?>
-        <label for="name">Full name: *</label>
-        <input type="text" id="name" name="name" required>
-
-        <label for="email">Email: *</label>
-        <input type="email" id="email" name="email" required>
-
-        <label for="dateofbirth">Date of Birth: *</label>
-        <input type="date" id="dateofbirth" name="dateofbirth" required>
-
-        <label for="phone">Phone Number: *</label>
-        <input type="text" id="phone" name="phone" required>
-
-        <label for="kortnummer">Kortnummer: *</label>
-        <input type="text" id="kortnummer" name="kortnummer" required>
-
-        <label for="PIN-kod">PIN-kod: *</label>
-        <input type="password" id="PIN-kod" name="PIN-kod" required>
-
-        <label for="account_type">Account Type: *</label>
-        <select id="account_type" name="account_type" required>
-            <option value="savings">Savings Account</option>
-            <option value="checking">Checking Account</option>
-        </select>
-
-        <label for="currency">Currency: *</label>
-        <select id="currency" name="currency" required>
-            <option value="SEK">Swedish Krona</option>
-            <option value="USD">US Dollar</option>
-            <option value="EUR">Euro</option>
-        </select>
-
-        <button type="submit" value="Register">Register</button>
-    </form>
-
+    <h1>Registrera nytt konto</h1>
+    <div class="container">
+        <form class="form" method="post">
+            <?php echo csrf_field(); ?>
+            <label for="name">Fullständigt namn: *</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">E-post: *</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="dateofbirth">Födelsedatum: *</label>
+            <input type="date" id="dateofbirth" name="dateofbirth" required>
+            
+            <label for="phone">Telefonnummer: *</label>
+            <input type="text" id="phone" name="phone" required>
+            
+            <label for="kortnummer">Kortnummer: *</label>
+            <input type="text" id="kortnummer" name="kortnummer" required>
+            
+            <label for="PIN-kod">PIN-kod: *</label>
+            <input type="password" id="PIN-kod" name="PIN-kod" required>
+            
+            <label for="account_type">Kontotyp: *</label>
+            <select id="account_type" name="account_type" required>
+                <option value="savings">Sparkonto</option>
+                <option value="checking">Transaktionskonto</option>
+            </select>
+            
+            <label for="currency">Valuta: *</label>
+            <select id="currency" name="currency" required>
+                <option value="SEK">Svenska kronor</option>
+                <option value="USD">US-dollar</option>
+                <option value="EUR">Euro</option>
+            </select>
+            
+            <button type="submit" value="Register">Registrera</button>
+        </form>
+    </div>
+        
 </body>
 </html>

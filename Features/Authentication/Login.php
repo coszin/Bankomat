@@ -1,8 +1,10 @@
 <?php 
     require_once __DIR__ . '/../../Shared/helpers.php';
     require_once __DIR__ . '/../../Shared/Infrastructure/database.php';
-    csrf_verify();
-    
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        csrf_verify();
+    }
+
     $messageToUser = "";
     if(isset($_POST['type'])) { 
         if($_POST['type'] === 'login') {
@@ -36,21 +38,24 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
+        <title>Logga in</title>
+        <link rel="stylesheet" href="Login.css">
     </head>
     <body>
-        <h2>Login</h2>
+        <h1>Logga in</h1>
         <?php echo $messageToUser; ?>
-        <form method="post">
-            <?php csrf_field(); ?>
-            <label for="Kortnummer">Kortnummer:</label>
-            <input type="text" id="Kortnummer" name="kortnummer">
-            
-            <label for="PIN-kod">PIN-kod:</label>
-            <input type="password" id="PIN-kod" name="PIN-kod">
-            
-            <button type="submit" name="type" value="login">Login</button>
-            <button type="submit" name="type" value="Register new account">Register new account</button>
-        </form>
+        <div class="container">
+            <form class="form" method="post">
+                <?php echo csrf_field(); ?>
+                <label for="Kortnummer">Kortnummer:</label>
+                <input type="text" id="Kortnummer" name="kortnummer">
+                
+                <label for="PIN-kod">PIN-kod:</label>
+                <input type="password" id="PIN-kod" name="PIN-kod">
+                
+                <button type="submit" name="type" value="login">Logga in</button>
+                <button type="submit" name="type" value="Register new account">Skapa nytt konto</button>
+            </form>
+        </div>
     </body>
     </html>
