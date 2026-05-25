@@ -18,9 +18,9 @@
         <h1>Bank Söder</h1>
         <div class="container">
             <form class="form" method="post"> 
-                <button type="button" id="login" name="login" value="Logga in" onclick="window.location.href='/../Bankomat/Features/Authentication/Login.php'">Logga in</button>
+                <button type="button" id="login" name="login" value="Logga in" onclick="window.location.href='/../Bankomat/Features/Authentication/Login.php'">Kund</button>
 
-                <button type="button" id="admin" name="admin" value="Admin" onclick="window.location.href='/../Bankomat/Features/Admin/Admin.php'">Admin</button>
+                <button type="button" id="admin" name="admin" value="Admin" onclick="window.location.href='/../Bankomat/Features/Authentication/AdminLogin.php'">Admin</button>
             </form>
         </div>
     </header>
