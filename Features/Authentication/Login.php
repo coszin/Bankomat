@@ -1,9 +1,10 @@
 <?php 
     require_once __DIR__ . '/../../Shared/helpers.php';
-    require_once __DIR__ . '/../../Shared/Infrastructure/database.php';
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         csrf_verify();
     }
+
 
     $messageToUser = "";
     if(isset($_POST['type'])) { 
@@ -13,22 +14,36 @@
             $dbFactory = new DatabaseFactory();
             $conn = $dbFactory->createDatabaseConnection();
             
-            $stmt = $conn->prepare("SELECT id, kortnummer, PIN-kod, userrole FROM users WHERE kortnummer = ?");
+            $stmt = $conn->prepare("SELECT id, kortnummer, pinkod FROM accounts WHERE kortnummer = ?");
             $stmt->execute([$_POST['kortnummer']]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            if($user && password_verify($_POST['kortnummer'], $user['kortnummer']) && password_verify($_POST['PIN-kod'], $user['PIN-kod'])) {
-                session_start();
+            // Check if account is locked
+            if ($user && strtotime($user['locked_until']) > time()) {
+                $messageToUser = "Account locked. Try again later.";
+            } 
+            // Check login attempt count
+            else if ($user && $user['login_attempts'] >= 3) {
+                $stmt = $conn->prepare("UPDATE accounts SET locked_until = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE id = ?");
+                $stmt->execute([$user['id']]);
+                $messageToUser = "Account locked after 3 failed attempts.";
+            }
+            // Check password
+            else if ($user && password_verify($_POST['pinkod'], $user['pinkod'])) {
+                $stmt = $conn->prepare("UPDATE accounts SET login_attempts = 0, locked_until = NULL WHERE id = ?");
+                $stmt->execute([$user['id']]);
                 $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_role'] = $user['userrole'];
-                header("Location: index.php");
+                header("Location: ../Features/Dashboard.php");
                 exit();
-            } 
+            }
+            // Failed login
             else {
+                $stmt = $conn->prepare("UPDATE accounts SET login_attempts = login_attempts + 1 WHERE id = ?");
+                $stmt->execute([$user['id']]);
                 $messageToUser = "Kortnummer eller PIN-kod är felaktigt.";
-            } 
+            }
         } else if($_POST['type'] === 'Register new account') {
-            header('Location: /../Bankomat/Features/Registration/Register.php');
+            header('Location: ../Registration/Register.php');
             exit();
         }
     }
@@ -39,11 +54,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Logga in</title>
-        <link rel="stylesheet" href="Login.css">
+        <link rel="stylesheet" href="Login.css?v=<?php echo time(); ?>">
     </head>
     <body>
         <h1>Logga in</h1>
-        <?php echo $messageToUser; ?>
+        <p class="text"><?php echo $messageToUser; ?></p>
         <div class="container">
             <form class="form" method="post">
                 <?php echo csrf_field(); ?>
@@ -51,7 +66,7 @@
                 <input type="text" id="Kortnummer" name="kortnummer">
                 
                 <label for="PIN-kod">PIN-kod:</label>
-                <input type="password" id="PIN-kod" name="PIN-kod">
+                <input type="password" id="PIN-kod" name="pinkod">
                 
                 <button type="submit" name="type" value="login">Logga in</button>
                 <button type="submit" name="type" value="Register new account">Skapa nytt konto</button>

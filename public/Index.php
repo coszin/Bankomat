@@ -1,17 +1,17 @@
 <?php 
-    require __DIR__ . "/../Shared/Infrastructure/database.php";
+    require_once __DIR__ . "/../Shared/Infrastructure/database.php";
     $dbFactory = new DatabaseFactory();
     $dbFactory->seedDatabase();
     
-    session_start();
     require_once __DIR__ . '\..\Shared\helpers.php';
+    
     csrf_token();
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Söder</title>
-    <link rel="stylesheet" href="Index.css">
+    <link rel="stylesheet" href="Index.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <header>

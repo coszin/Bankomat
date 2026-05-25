@@ -30,7 +30,7 @@
 
                 $stmt = $conn->prepare("INSERT INTO Accounts (kortnummer, PIN-kod, user_id, account_type, currency) VALUES (?, ?, ?, ?, ?)");
                 $stmt->execute([
-                    password_hash($_POST['kortnummer'], PASSWORD_DEFAULT),
+                    $_POST['kortnummer'],
                     password_hash($_POST['PIN-kod'], PASSWORD_DEFAULT),
                     $_SESSION['user_id'],
                     $_POST['account_type'],
@@ -40,6 +40,7 @@
                 header("Location: Login.php");
                 exit();
             }
+
         }
     }
 ?>
@@ -49,15 +50,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrera</title>
-    <link rel="stylesheet" href="Register.css">
+    <link rel="stylesheet" href="Register.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <h1>Registrera nytt konto</h1>
     <div class="container">
         <form class="form" method="post">
             <?php echo csrf_field(); ?>
-            <label for="name">Fullständigt namn: *</label>
-            <input type="text" id="name" name="name" required>
+            <label for="firstname">Förnamn: *</label>
+            <input type="text" id="firstname" name="firstname" required>
+            
+            <label for="lastname">Efternamn: *</label>
+            <input type="text" id="lastname" name="lastname" required>
             
             <label for="email">E-post: *</label>
             <input type="email" id="email" name="email" required>
