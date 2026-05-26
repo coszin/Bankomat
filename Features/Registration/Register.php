@@ -42,7 +42,8 @@
                     $_POST['account_type'],
                     $_POST['currency']
                 ]);
-                
+
+                session_regenerate_id(true);
                 header("Location: /Bankomat/Features/Kund/Presentation/Login/Login.php");
                 exit;
 
@@ -64,7 +65,7 @@
             <h1>Bank Söder</h1>
         </div>
         <div class="container">
-        <img src="/Bankomat/Shared/Img/BCO.01b88635-080a-4abb-a9cb-a00ff113fe58.png" alt="Söder logo" class="logo">
+        <img src="../../Shared/Img/BankSöderLogoTop.png" alt="Söder logo" class="logo">
         </div>
     </header>
     <main>
@@ -75,25 +76,25 @@
                 <input type="hidden" name="type" value="Register">
 
                 <label for="firstname">Förnamn: *</label>
-                <input type="text" id="firstname" name="firstname" required>
+                <input type="text" id="firstname" name="firstname" value="<?php echo htmlspecialchars($_POST['firstname'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
                 
                 <label for="lastname">Efternamn: *</label>
-                <input type="text" id="lastname" name="lastname" required>
+                <input type="text" id="lastname" name="lastname" value="<?php echo htmlspecialchars($_POST['lastname'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
                 
                 <label for="email">E-post: *</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($_POST['email'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
                 
                 <label for="dateofbirth">Födelsedatum: *</label>
-                <input type="date" id="dateofbirth" name="dateofbirth" required>
+                <input type="date" id="dateofbirth" name="dateofbirth" value="<?php echo htmlspecialchars($_POST['dateofbirth'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
                 
                 <label for="phone">Telefonnummer: *</label>
-                <input type="text" id="phone" name="phone" required>
+                <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($_POST['phone'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
                 
                 <label for="kortnummer">Kortnummer: *</label>
-                <input type="text" id="kortnummer" name="kortnummer" required>
+                <input type="text" id="kortnummer" name="kortnummer" value="<?php echo htmlspecialchars($_POST['kortnummer'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
                 
                 <label for="pinkod">PIN-kod: *</label>
-                <input type="password" id="pinkod" name="pinkod" required>
+                <input type="password" id="pinkod" name="pinkod" value="<?php echo htmlspecialchars($_POST['pinkod'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
                 
                 <label for="account_type">Kontotyp: *</label>
                 <select id="account_type" name="account_type" required>

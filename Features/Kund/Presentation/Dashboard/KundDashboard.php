@@ -33,7 +33,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/Bankomat/public/Index.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="KundDashboard.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <header>
@@ -41,28 +41,42 @@
             <h1>Bank Söder</h1>
         </div>
         <div class="container">
-        <img src="/Bankomat/Shared/Img/BCO.01b88635-080a-4abb-a9cb-a00ff113fe58.png" alt="Söder logo" class="logo">
+            <img src="../../../../Shared/Img/BankSöderLogoTop.png" alt="Söder logo" class="logo">
         </div>
     </header>
     <main>
-        <h1>Kund Dashboard</h1>
-        <div class="container">
-            <form class="form" method="post">
-                <?php echo csrf_field(); ?>
-                <input type="hidden" name="type" value="logout" value="true">
+        <div class="split_container">
+            <div class="left">
+                <?php
+                    if(isset($_POST['type']) && $_POST['type'] === 'Withdraw') {
+                        header("Location: Options/Withdraw.php");
+                        exit();
+                    } else if(isset($_POST['type']) && $_POST['type'] === 'deposit') {
+                        
+                    } else if(isset($_POST['type']) && $_POST['type'] === 'transfer') {
+                    
+                    }
+                
+                ?>
+            </div>
+            <div class="container">
+                <h1>Kund Dashboard</h1>
+                <form class="form" method="post">
+                    <?php echo csrf_field(); ?>
+                    <input type="hidden" name="type" value="logout" value="true">
 
-                <button type="submit" name="type" value="Withdraw">Ta ut pengar</button>
+                    <button type="submit" name="type" value="Withdraw">Ta ut pengar</button>
 
-                <button type="submit" name="type" value="deposit">Sätt in pengar</button>
+                    <button type="submit" name="type" value="deposit">Sätt in pengar</button>
 
-                <button type="submit" name="type" value="transfer">Överför pengar</button>
+                    <button type="submit" name="type" value="transfer">Överför pengar</button>
 
-                <button type="submit" name="type" value="overview">Överblick av alla kort</button>
+                    <button type="submit" name="type" value="logout">Logga ut</button>
+                </form>
+            </div>
+            <div class="right">
 
-                <button type="submit" name="type" value="new_card">Nytt kort</button>
-
-                <button type="submit" name="type" value="logout">Logga ut</button>
-            </form>
+            </div>
         </div>
     </main>
     <footer>

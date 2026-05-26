@@ -40,6 +40,8 @@
                     $stmt = $conn->prepare("UPDATE accounts SET login_attempts = 0, locked_until = NULL WHERE id = ?");
                     $stmt->execute([$user['id']]);
                     $_SESSION['user_id'] = $user['id'];
+
+                    session_regenerate_id(true);
                     header("Location: ../Dashboard/KundDashboard.php");
                     exit();
                 }
@@ -70,7 +72,7 @@
                 <h1>Bank Söder</h1>
             </div>
             <div class="container">
-            <img src="/Bankomat/Shared/Img/BCO.01b88635-080a-4abb-a9cb-a00ff113fe58.png" alt="Söder logo" class="logo">
+            <img src="../../../../Shared/Img/BankSöderLogoTop.png" alt="Söder logo" class="logo">
             </div>
         </header>
         <main>
@@ -82,10 +84,10 @@
                     <input type="hidden" name="type" value="login">
                     
                     <label for="Kortnummer">Kortnummer:</label>
-                    <input type="number" inputmode="numeric" pattern="[0-9]*" placeholder="Enbart number" id="Kortnummer" name="kortnummer">
+                    <input type="number" inputmode="numeric" pattern="[0-9]*" placeholder="Enbart number" name="kortnummer" value="<?php echo htmlspecialchars($_POST['kortnummer'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 
                     <label for="PIN-kod">PIN-kod:</label>
-                    <input type="number" inputmode="numeric" pattern="[0-9]*" placeholder="Enbart number" id="PIN-kod" name="pinkod">
+                    <input type="number" inputmode="numeric" pattern="[0-9]*" placeholder="Enbart number"name="pinkod" value="<?php echo htmlspecialchars($_POST['pinkod'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
                     
                     <button type="submit" name="type" value="login">Logga in</button>
                     <button type="submit" name="type" value="Register new account">Skapa nytt konto</button>

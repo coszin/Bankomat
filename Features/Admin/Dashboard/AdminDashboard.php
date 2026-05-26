@@ -12,7 +12,7 @@
             <h1>Bank Söder - Admin Dashboard</h1>
         </div>
         <div class="container">
-            <img src="/Bankomat/Shared/Img/BCO.01b88635-080a-4abb-a9cb-a00ff113fe58.png" alt="Söder logo" class="logo">
+            <img src="/Bankomat/Shared/Img/BankSöderLogoTop.png" alt="Söder logo" class="logo">
         </div>
     </header>
     <main>
