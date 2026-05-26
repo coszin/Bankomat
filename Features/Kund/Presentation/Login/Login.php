@@ -1,5 +1,5 @@
 <?php 
-    require_once __DIR__ . '/../../Shared/helpers.php';
+    require_once __DIR__ . '/../../../../Shared/helpers.php';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         csrf_verify();
@@ -9,7 +9,7 @@
     if(isset($_POST['type'])) { 
         if(($_POST['type'] === 'login')) {
             
-            require __DIR__ . "/../../Shared/Infrastructure/database.php";
+            require __DIR__ . "/../../../../Shared/Infrastructure/database.php";
             $dbFactory = new DatabaseFactory();
             $conn = $dbFactory->createDatabaseConnection();
             
@@ -40,7 +40,7 @@
                     $stmt = $conn->prepare("UPDATE accounts SET login_attempts = 0, locked_until = NULL WHERE id = ?");
                     $stmt->execute([$user['id']]);
                     $_SESSION['user_id'] = $user['id'];
-                    header("Location: ../Features/Dashboard.php");
+                    header("Location: ../Dashboard/KundDashboard.php");
                     exit();
                 }
                 // Failed login
@@ -51,7 +51,7 @@
                 }
             }
         } else if($_POST['type'] === 'Register new account') {
-            header('Location: ../Registration/Register.php');
+            header('Location: ../../../Registration/Register.php');
             exit();
         }
     }
@@ -62,23 +62,40 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Logga in</title>
-        <link rel="stylesheet" href="Login.css?v=<?php echo time(); ?>">
+        <link rel="stylesheet" href="/Bankomat/public/Index.css?v=<?php echo time(); ?>">
     </head>
     <body>
-        <h1>Logga in</h1>
-        <p class="text"><?php echo $messageToUser; ?></p>
-        <div class="container">
-            <form class="form" method="post">
-                <?php echo csrf_field(); ?>
-                <label for="Kortnummer">Kortnummer:</label>
-                <input type="number" inputmode="numeric" pattern="[0-9]*" placeholder="Enbart number" id="Kortnummer" name="kortnummer">
+        <header>
+            <div class="container">
+                <h1>Bank Söder</h1>
+            </div>
+            <div class="container">
+            <img src="/Bankomat/Shared/Img/BCO.01b88635-080a-4abb-a9cb-a00ff113fe58.png" alt="Söder logo" class="logo">
+            </div>
+        </header>
+        <main>
+            <h1>Logga in</h1>
+            <div class="container">
+                <p class="text"><?php echo $messageToUser; ?></p>
+                <form class="form" method="post">
+                    <?php echo csrf_field(); ?>
+                    <input type="hidden" name="type" value="login">
+                    
+                    <label for="Kortnummer">Kortnummer:</label>
+                    <input type="number" inputmode="numeric" pattern="[0-9]*" placeholder="Enbart number" id="Kortnummer" name="kortnummer">
 
-                <label for="PIN-kod">PIN-kod:</label>
-                <input type="number" inputmode="numeric" pattern="[0-9]*" placeholder="Enbart number" id="PIN-kod" name="pinkod">
-                
-                <button type="submit" name="type" value="login">Logga in</button>
-                <button type="submit" name="type" value="Register new account">Skapa nytt konto</button>
-            </form>
-        </div>
+                    <label for="PIN-kod">PIN-kod:</label>
+                    <input type="number" inputmode="numeric" pattern="[0-9]*" placeholder="Enbart number" id="PIN-kod" name="pinkod">
+                    
+                    <button type="submit" name="type" value="login">Logga in</button>
+                    <button type="submit" name="type" value="Register new account">Skapa nytt konto</button>
+                </form>
+            </div>
+        </main>
+        <footer>
+            <div class="container">
+                <p>&copy; 2026 Bank Söder. All rights reserved.</p>
+            </div>
+        </footer>
     </body>
-    </html>
+</html>

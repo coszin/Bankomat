@@ -1,0 +1,12 @@
+repository Jag har primärt följt ett vertical slice architecture med mapparna 
+L Features/
+I         L Admin/
+I         L Kund/
+I         L Registration/
+L Public/
+I        L Index.php
+I        L Index.css
+L Shared/
+        L Infrastructure/
+                        L DB.php 
+men har dellar av att onion architecture som Repository/Services/Interfaces som jag implementerar till kund i Bankomat/features/Kund/.

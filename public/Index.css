@@ -1,7 +1,59 @@
-.form{
+/* My Colors 
+yellow: #D4A017 
+Blue: #1e3a5f
+Light grey: #f4f4f4
+*/
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; 
+}
+
+header {
+  height: 25vh;
+  background-color: #1e3a5f;
+}
+
+main {
+  height: 55vh;
+  background-color: #f4f4f4;
+  overflow-y: auto; 
+  border: 5px solid #1e3a5f;
+}
+
+footer {
+  height: 20vh;
+  background-color: #1e3a5f;
+}
+
+.form {
     display: flex;
     flex-direction: column;
+    background-color: #1e3a5f;
+    color: #D4A017;
     width: 25rem;
+}
+
+label {
+    padding: 0.5rem 0;
+    align-self: center;
+}
+
+input {
+    border: 2px solid 1e3a5f;
+    text-align: center;
+    background-color: #1e3a5f;
+    color: #D4A017;
+}
+
+select {
+    background-color: #1e3a5f;
+    color: #D4A017;
 }
 
 .container {
@@ -10,10 +62,35 @@
 }
 
 h1 {
-    padding-top: 2rem;
     text-align: center;
+    margin: 0px;
+    padding-bottom: 1rem;
+    color: #D4A017;
 }
 
-h2 {
+p {
     text-align: center;
+    height: 100%;
+    color: #D4A017;
+}
+
+img {
+  object-fit: cover;     
+  width: 200px;          
+  height: 200px;
+}
+
+button {
+    background-color: #1e3a5f;
+    color: #D4A017;
+    padding: 12px 24px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.25s ease;
+} 
+
+button:hover {
+    background-color: #D4A017;
+    color: #1e3a5f;
 }

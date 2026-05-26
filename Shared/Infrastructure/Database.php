@@ -24,7 +24,7 @@
 
                 $conn->exec("CREATE TABLE IF NOT EXISTS accounts (
                     id INT AUTO_INCREMENT PRIMARY KEY,
-                    kortnummer VARCHAR(255) NOT NULL,
+                    kortnummer VARCHAR(255) UNIQUE NOT NULL,
                     pinkod VARCHAR(255) NOT NULL,
                     user_id INT NOT NULL,
                     account_type INT NOT NULL,
