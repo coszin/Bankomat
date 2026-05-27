@@ -1,4 +1,7 @@
 <?php
+    if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
         class LoginValidation {
         function validate(array $post) : array {
             $errors = [];

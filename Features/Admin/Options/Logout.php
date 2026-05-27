@@ -1,12 +1,14 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 class Logout {
     public function execute() {
         atm_reset_session();
     }
 }
 function atm_reset_session() {
-    // Start or resume the session
-    session_start();
 
     // 1. Remove all session variables
     $_SESSION = [];

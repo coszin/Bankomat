@@ -1,5 +1,7 @@
 <?php
-session_start();
+    if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 function csrf_token(): string {
     if (empty($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -24,4 +26,18 @@ function csrf_verify(): void {
 
     unset($_SESSION['csrf_token']);
 }
+
+function require_admin() {
+    if (!isset($_SESSION['user'])) {
+        header("Location: /Bankomat/login.php");
+        exit();
+    }
+
+    if ($_SESSION['user']['userrole'] !== 'admin') {
+        http_response_code(403);
+        echo "Access denied. Admins only.";
+        exit();
+    }
+}
+
 ?>

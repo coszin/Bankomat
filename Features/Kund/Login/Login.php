@@ -1,5 +1,9 @@
 <?php 
-    require_once __DIR__ . '/../../../../Shared/helpers.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+    require_once __DIR__ . '/../../../Shared/helpers.php';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         csrf_verify();
@@ -9,7 +13,7 @@
     if(isset($_POST['type'])) { 
         if(($_POST['type'] === 'login')) {
             
-            require __DIR__ . "/../../../../Shared/Infrastructure/database.php";
+            require __DIR__ . "/../../../Shared/Infrastructure/database.php";
             $dbFactory = new DatabaseFactory();
             $conn = $dbFactory->createDatabaseConnection();
             
@@ -21,9 +25,14 @@
                 $messageToUser = implode("<br>", $errors);
             } else {
                 // Fetch user by card number
-                $stmt = $conn->prepare("SELECT id, kortnummer, pinkod FROM accounts WHERE kortnummer = ?");
+                $stmt = $conn->prepare("
+                    SELECT id, kortnummer, pinkod, login_attempts, locked_until, user_id
+                    FROM accounts
+                    WHERE kortnummer = ?
+                ");
                 $stmt->execute([$_POST['kortnummer']]);
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
                 
                 // Check if account is locked
                 if ($user && strtotime($user['locked_until']) > time()) {
@@ -41,6 +50,22 @@
                     $stmt->execute([$user['id']]);
                     $_SESSION['user_id'] = $user['id'];
 
+                    require_once __DIR__ . "/../../../Shared/Repository/KundRepository.php";
+                    $repo = new KundRepository($conn);
+
+                    // 1. Get the account
+                    $account = $repo->getAccountsByKortnumer($_POST['kortnummer']);
+
+                    // 2. Get the user who owns the account
+                    $user = $repo->getUserById($account['user_id']);
+
+                    // 3. Save correct user data to session
+                    $_SESSION['user'] = [
+                        'id' => $user['id'],
+                        'firstname' => $user['firstname'],
+                        'userrole' => $user['userrole']
+                    ];
+
                     session_regenerate_id(true);
                     header("Location: ../Dashboard/KundDashboard.php");
                     exit();
@@ -53,7 +78,7 @@
                 }
             }
         } else if($_POST['type'] === 'Register new account') {
-            header('Location: ../../../Registration/Register.php');
+            header('Location: ../../Registration/Register.php');
             exit();
         }
     }
@@ -72,7 +97,7 @@
                 <h1>Bank Söder</h1>
             </div>
             <div class="container">
-            <img src="../../../../Shared/Img/BankSöderLogoTop.png" alt="Söder logo" class="logo">
+            <img src="../../../Shared/Img/BankSöderLogoTop.png" alt="Söder logo" class="logo">
             </div>
         </header>
         <main>
@@ -92,6 +117,7 @@
                     <button type="submit" name="type" value="login">Logga in</button>
                     <button type="submit" name="type" value="Register new account">Skapa nytt konto</button>
                 </form>
+                <a href="/Bankomat/Public/Index.php">⬅ Tillbaka</a>
             </div>
         </main>
         <footer>

@@ -1,10 +1,16 @@
 <?php 
-    require_once __DIR__ . "/../Shared/Infrastructure/database.php";
-    $dbFactory = new DatabaseFactory();
-    $dbFactory->seedDatabase();
-    
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$msgToUser = "";
+    if(isset($_POST['generate_db']) && $_POST['generate_db'] === 'generate_db') {
+        require_once __DIR__ . "/../Shared/Infrastructure/database.php";
+        $dbFactory = new DatabaseFactory();
+        $dbFactory->seedDatabase();
+        $msgToUser = "Databas genererad.";
+    }
     require_once __DIR__ . '\..\Shared\helpers.php';
-    
     csrf_token();
 ?>
 <!DOCTYPE html>
@@ -26,10 +32,13 @@
         <h1>Välkomen till Bank Söder</h1>
         <div class="container">
             <form class="form" method="post"> 
-                <button type="button" id="login" name="login" value="Logga in" onclick="window.location.href='../Features/Kund/Presentation/Login/Login.php'">Kund</button>
+                <button type="button" id="login" name="login" value="Logga in" onclick="window.location.href='../Features/Kund/Login/Login.php'">Logga in</button>
 
-                <button type="button" id="admin" name="admin" value="Admin" onclick="window.location.href='../Features/Admin/Login/AdminLogin.php'">Admin</button>
+                <!-- <button type="button" id="admin" name="admin" value="Admin" onclick="window.location.href='../Features/Admin/Login/AdminLogin.php'">Admin</button> -->
+
+                <button type="submit" id="generate_db" name="generate_db" value="generate_db">Generera Databas</button>
             </form>
+            <h2 style="color: #D4A017;"><?php echo $msgToUser; ?></h2>
         </div>
     </main>
     <footer>

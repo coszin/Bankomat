@@ -4,7 +4,7 @@
             return new PDO('mysql:host=localhost;dbname=BankSouth', 'root', '');
         }
 
-        function seedDatabase() : Void {
+        function seedDatabase() : void {
             $conn = new PDO("mysql:host=localhost", "root", "");
             
             try {
@@ -42,14 +42,15 @@
                     description TEXT NOT NULL
                 )");
 
-                $conn->exec("CREATE TABLE IF NOT EXISTS transactions (
+                $conn->exec("CREATE TABLE transactions (
                     id INT AUTO_INCREMENT PRIMARY KEY,
-                    account_id INT NOT NULL,
-                    type enum('deposit', 'withdrawal', 'transfer', 'fee', 'interest') NOT NULL,
-                    amount DECIMAL(15, 2) NOT NULL,
-                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    description TEXT,
-                    related_account_id INT NOT NULL
+                    from_account_id INT NULL,
+                    to_account_id INT NULL,
+                    amount DECIMAL(12,2) NOT NULL,
+                    type enum('Withdrawal', 'Deposit', 'Transfer'),
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (from_account_id) REFERENCES accounts(id),
+                    FOREIGN KEY (to_account_id) REFERENCES accounts(id)
                 )");
 
                 require_once __DIR__ . '/../Infrastructure/seeder.php';

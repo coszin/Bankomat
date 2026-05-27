@@ -1,4 +1,7 @@
 <?php
+    if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
         class RegisterUserValidation {
         function validate(array $post) : array {
             $errors = [];

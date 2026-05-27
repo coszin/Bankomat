@@ -1,4 +1,8 @@
 <?php 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
     require_once __DIR__ . '/../../shared/helpers.php';
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         csrf_verify();
@@ -44,7 +48,7 @@
                 ]);
 
                 session_regenerate_id(true);
-                header("Location: /Bankomat/Features/Kund/Presentation/Login/Login.php");
+                header("Location: /Bankomat/Features/Kund/Login/Login.php");
                 exit;
 
             }
@@ -111,6 +115,7 @@
                 
                 <button type="submit" name="type" value="Register">Registrera</button>
             </form>
+            <a href="/Bankomat/Features/Kund/Login/login.php">⬅ Tillbaka</a>
         </div>
     </main>
     <footer>
