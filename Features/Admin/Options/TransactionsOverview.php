@@ -1,30 +1,30 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
-require_once __DIR__ . '/../../../Shared/helpers.php';
-require_once __DIR__ . '/../Options/DatabaseConnection.php';
+    require_once __DIR__ . '/../../../Shared/helpers.php';
+    require_once __DIR__ . '/../Options/DatabaseConnection.php';
 
-$factory = new DatabaseConnection();
-$conn = $factory->getConnection();
+    $factory = new DatabaseConnection();
+    $conn = $factory->getConnection();
 
-$sql = "
-    SELECT 
-        t.id,
-        fa.kortnummer AS from_kortnummer,
-        ta.kortnummer AS to_kortnummer,
-        t.amount,
-        t.type,
-        t.created_at
-    FROM transactions t
-    LEFT JOIN accounts fa ON t.from_account_id = fa.id
-    LEFT JOIN accounts ta ON t.to_account_id = ta.id
-    ORDER BY t.created_at DESC
-";
+    $sql = "
+        SELECT 
+            t.id,
+            fa.kortnummer AS from_kortnummer,
+            ta.kortnummer AS to_kortnummer,
+            t.amount,
+            t.type,
+            t.created_at
+        FROM transactions t
+        LEFT JOIN accounts fa ON t.from_account_id = fa.id
+        LEFT JOIN accounts ta ON t.to_account_id = ta.id
+        ORDER BY t.created_at DESC
+    ";
 
-$stmt = $conn->query($sql);
-$transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $conn->query($sql);
+    $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -22,7 +22,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 exit();
             }
 
-            $userId = $_SESSION['user_id'];
+            $userId = $_SESSION['user']['id'];
             $accounts = $this->KundRepository->getAccountsByUserId($userId);
 
             echo "<h2>Dina Konton</h2>";

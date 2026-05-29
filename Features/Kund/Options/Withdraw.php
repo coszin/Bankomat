@@ -23,6 +23,10 @@ class Withdrawal {
             return;
         }
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            csrf_verify();
+        }
+
         if ($_POST['type'] === 'Uttag') {
 
             $account = trim($_POST['account'] ?? '');

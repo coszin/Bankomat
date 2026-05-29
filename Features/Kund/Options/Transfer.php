@@ -14,13 +14,22 @@
         public function __construct() {
             $this->pdo = DatabaseConnection::getConnection();
             $this->kundRepository = new KundRepository($this->pdo);
-
         }
 
         public function execute() {
             global $messageToUser;
 
             if(isset($_POST['type'])) { 
+
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    csrf_verify();
+                }
+
+                if ($_POST['type'] === 'Avbryt') {
+                    header("Location: /Bankomat/Features/Kund/Dashboard/KundDashboard.php");
+                    exit();
+                }
+
                 if(($_POST['type'] === 'Överför')) {
 
                     $from = trim($_POST['from_account'] ?? '');
@@ -46,10 +55,11 @@
                     } catch (Exception $e) {
                         $messageToUser = "Fel vid överföring: " . $e->getMessage();
                     }
-                } else if (($_POST['type'] ?? '') === 'Avbryt') {
-                    header("Location: /Bankomat/Features/Kund/Dashboard/KundDashboard.php");
-                    exit();
-                }
+                } 
+                // else if (($_POST['type'] ?? '') === 'Avbryt') {
+                //     header("Location: /Bankomat/Features/Kund/Dashboard/KundDashboard.php");
+                //     exit();
+                // }
             }
         }
     }
@@ -80,16 +90,16 @@
                 <p><?php echo $messageToUser ?></p>
                 <form class="form" method="post">
                     <?php echo csrf_field(); ?>
-                    
-                    <label for="Kortnummer">Avsändare:</label>
-                    <input type="number" inputmode="numeric" pattern="[0-9]*" placeholder="Enbart number" name="from_account" value="<?php echo htmlspecialchars($_POST['from_account'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 
-                    <label for="PIN-kod">Mottagare:</label>
-                    <input type="number" inputmode="numeric" pattern="[0-9]*" placeholder="Enbart number" name="to_account" value="<?php echo htmlspecialchars($_POST['to_account'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-                    
-                    <label for="PIN-kod">Mängd:</label>
-                    <input type="number" inputmode="numeric" pattern="[0-9]*" placeholder="Enbart number" name="amount" value="<?php echo htmlspecialchars($_POST['amount'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-                    
+                    <label for="from_account">Avsändare:</label>
+                    <input type="number" name="from_account" placeholder="Kontonummer" >
+
+                    <label for="to_account">Mottagare:</label>
+                    <input type="number" name="to_account" placeholder="Kontonummer" >
+
+                    <label for="amount">Mängd:</label>
+                    <input type="number" name="amount" placeholder="Belopp" >
+
                     <button type="submit" name="type" value="Överför">Överför</button>
                     <button type="submit" name="type" value="Avbryt">Avbryt</button>
                 </form>

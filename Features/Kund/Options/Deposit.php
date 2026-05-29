@@ -23,6 +23,10 @@ class Deposit {
             return;
         }
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            csrf_verify();
+        }
+
         if ($_POST['type'] === 'Insättning') {
 
             $account = trim($_POST['account'] ?? '');

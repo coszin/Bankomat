@@ -37,50 +37,50 @@
 $stmt = $conn->prepare("INSERT INTO accounts (kortnummer, pinkod, user_id, account_type, balance, currency, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
 // User 1 → 2 accounts
-$stmt->execute(['20000001', password_hash('1234', PASSWORD_DEFAULT), 1, 1, 1500.00, 'SEK', 'active']);
-$stmt->execute(['20000002', password_hash('5678', PASSWORD_DEFAULT), 1, 2, 8200.50, 'SEK', 'active']);
+$stmt->execute(['2000000120000001', password_hash('1234', PASSWORD_DEFAULT), 1, 1, 1500.00, 'SEK', 'active']);
+$stmt->execute(['2000000220000002', password_hash('5678', PASSWORD_DEFAULT), 1, 2, 8200.50, 'SEK', 'active']);
 
 // User 2 → 1 account
-$stmt->execute(['20000003', password_hash('1111', PASSWORD_DEFAULT), 2, 1, 500.00, 'SEK', 'active']);
+$stmt->execute(['2000000320000003', password_hash('1111', PASSWORD_DEFAULT), 2, 1, 500.00, 'SEK', 'active']);
 
 // User 3 → 3 accounts
-$stmt->execute(['20000004', password_hash('2222', PASSWORD_DEFAULT), 3, 2, 12000.00, 'SEK', 'active']);
-$stmt->execute(['20000005', password_hash('3333', PASSWORD_DEFAULT), 3, 1, 75.25, 'SEK', 'active']);
-$stmt->execute(['20000006', password_hash('4444', PASSWORD_DEFAULT), 3, 2, 999.99, 'SEK', 'active']);
+$stmt->execute(['2000000420000004', password_hash('2222', PASSWORD_DEFAULT), 3, 2, 12000.00, 'SEK', 'active']);
+$stmt->execute(['2000000520000005', password_hash('3333', PASSWORD_DEFAULT), 3, 1, 75.25, 'SEK', 'active']);
+$stmt->execute(['2000000620000006', password_hash('4444', PASSWORD_DEFAULT), 3, 2, 999.99, 'SEK', 'active']);
 
 // User 4 → 1 account
-$stmt->execute(['20000007', password_hash('5555', PASSWORD_DEFAULT), 4, 1, 450.00, 'SEK', 'active']);
+$stmt->execute(['2000000720000007', password_hash('5555', PASSWORD_DEFAULT), 4, 1, 450.00, 'SEK', 'active']);
 
 // User 5 → 2 accounts
-$stmt->execute(['20000008', password_hash('6666', PASSWORD_DEFAULT), 5, 2, 30000.00, 'SEK', 'active']);
-$stmt->execute(['20000009', password_hash('7777', PASSWORD_DEFAULT), 5, 1, 120.00, 'SEK', 'active']);
+$stmt->execute(['2000000820000008', password_hash('6666', PASSWORD_DEFAULT), 5, 2, 30000.00, 'SEK', 'active']);
+$stmt->execute(['2000000920000009', password_hash('7777', PASSWORD_DEFAULT), 5, 1, 120.00, 'SEK', 'active']);
 
 // User 6 → 1 account
-$stmt->execute(['20000010', password_hash('8888', PASSWORD_DEFAULT), 6, 2, 780.40, 'SEK', 'active']);
+$stmt->execute(['2000001020000010', password_hash('8888', PASSWORD_DEFAULT), 6, 2, 780.40, 'SEK', 'active']);
 
 // User 7 → 3 accounts
-$stmt->execute(['20000011', password_hash('9012', PASSWORD_DEFAULT), 7, 1, 2500.00, 'SEK', 'active']);
-$stmt->execute(['20000012', password_hash('2109', PASSWORD_DEFAULT), 7, 2, 50.00, 'SEK', 'active']);
-$stmt->execute(['20000013', password_hash('1478', PASSWORD_DEFAULT), 7, 1, 9999.00, 'SEK', 'active']);
+$stmt->execute(['2000001120000011', password_hash('9012', PASSWORD_DEFAULT), 7, 1, 2500.00, 'SEK', 'active']);
+$stmt->execute(['2000001220000012', password_hash('2109', PASSWORD_DEFAULT), 7, 2, 50.00, 'SEK', 'active']);
+$stmt->execute(['2000001320000013', password_hash('1478', PASSWORD_DEFAULT), 7, 1, 9999.00, 'SEK', 'active']);
 
 // User 8 → 1 account
-$stmt->execute(['20000014', password_hash('2589', PASSWORD_DEFAULT), 8, 2, 340.00, 'SEK', 'active']);
+$stmt->execute(['2000001420000014', password_hash('2589', PASSWORD_DEFAULT), 8, 2, 340.00, 'SEK', 'active']);
 
 // User 9 → 2 accounts
-$stmt->execute(['20000015', password_hash('3691', PASSWORD_DEFAULT), 9, 1, 670.00, 'SEK', 'active']);
-$stmt->execute(['20000016', password_hash('1597', PASSWORD_DEFAULT), 9, 2, 120.75, 'SEK', 'active']);
+$stmt->execute(['2000001520000015', password_hash('3691', PASSWORD_DEFAULT), 9, 1, 670.00, 'SEK', 'active']);
+$stmt->execute(['2000001620000016', password_hash('1597', PASSWORD_DEFAULT), 9, 2, 120.75, 'SEK', 'active']);
 
 // User 10 → 1 account
-$stmt->execute(['20000017', password_hash('7531', PASSWORD_DEFAULT), 10, 1, 890.00, 'SEK', 'active']);
+$stmt->execute(['2000001720000017', password_hash('7531', PASSWORD_DEFAULT), 10, 1, 890.00, 'SEK', 'active']);
 
 // User 11 → 1 account
-$stmt->execute(['20000018', password_hash('8524', PASSWORD_DEFAULT), 11, 2, 4500.00, 'SEK', 'active']);
+$stmt->execute(['2000001820000018', password_hash('8524', PASSWORD_DEFAULT), 11, 2, 4500.00, 'SEK', 'active']);
 
 // User 12 → 1 account
-$stmt->execute(['20000019', password_hash('9513', PASSWORD_DEFAULT), 12, 1, 60.00, 'SEK', 'active']);
+$stmt->execute(['2000001920000019', password_hash('9513', PASSWORD_DEFAULT), 12, 1, 60.00, 'SEK', 'active']);
 
 // User 13 → 1 account
-$stmt->execute(['20000020', password_hash('2046', PASSWORD_DEFAULT), 13, 2, 15000.00, 'SEK', 'active']);
+$stmt->execute(['2000002020000020', password_hash('2046', PASSWORD_DEFAULT), 13, 2, 15000.00, 'SEK', 'active']);
 
 
 

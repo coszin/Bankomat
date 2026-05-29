@@ -18,7 +18,6 @@
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
-
         public function getAccountsByKortnumer($kortnummer) {
             $stmt = $this->conn->prepare("SELECT * FROM accounts WHERE kortnummer = ?");
             $stmt->execute([$kortnummer]);

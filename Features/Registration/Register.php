@@ -42,7 +42,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 $stmt->execute([
                     $_POST['kortnummer'],
                     password_hash($_POST['pinkod'], PASSWORD_DEFAULT),
-                    $_SESSION['user_id'],
+                    $userId = $conn->lastInsertId(),
                     $_POST['account_type'],
                     $_POST['currency']
                 ]);
